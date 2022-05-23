@@ -18,6 +18,7 @@ const Formulario = ({
   pacientes,
   setPacientes,
   paciente: pacienteObj,
+  setPaciente: setPacienteApp,
 }) => {
   const [paciente, setPaciente] = useState("");
   const [id, setId] = useState("");
@@ -55,17 +56,32 @@ const Formulario = ({
       sintomas,
     };
 
+    if (id) {
+      nuevoPaciente.id = id;
+
+      const pacientesActualizados = pacientes.map((pacienteState) =>
+        pacienteState.id === nuevoPaciente.id ? nuevoPaciente : pacienteState
+      );
+
+      setPacientes(pacientesActualizados);
+      setPacienteApp({});
+    } else {
+      nuevoPaciente.id = Date.now();
+      setPacientes([...pacientes, nuevoPaciente]);
+    }
+
     setPacientes([...pacientes, nuevoPaciente]);
     setModalVisible(!modalVisible);
 
     console.log(pacientes);
 
-    setPaciente(" ");
-    setPropietario(" ");
-    setEmail(" ");
-    setTelefono(" ");
+    setPaciente("");
+    setId("");
+    setPropietario("");
+    setEmail("");
+    setTelefono("");
     setFecha(new Date());
-    setSintomas(" ");
+    setSintomas("");
   };
 
   return (
@@ -78,7 +94,17 @@ const Formulario = ({
 
           <Pressable
             style={styles.btnCancelar}
-            onPress={() => setModalVisible(!modalVisible)}
+            onPress={() => {
+              setModalVisible(!modalVisible);
+              setPacienteApp({});
+              setId("");
+              setPaciente("");
+              setPropietario("");
+              setEmail("");
+              setTelefono("");
+              setFecha(new Date());
+              setSintomas("");
+            }}
           >
             <Text style={styles.btnCancelarTexto}>X Cancelar</Text>
           </Pressable>

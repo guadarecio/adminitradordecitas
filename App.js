@@ -8,7 +8,7 @@ import {
   Pressable,
   Modal,
   FlatList,
-  TextInput,
+  Alert,
 } from "react-native";
 
 import Formulario from "./src/components/Formulario";
@@ -22,6 +22,26 @@ const App = () => {
   const pacienteEditar = (id) => {
     const pacienteEditar = pacientes.filter((paciente) => paciente.id === id);
     setPaciente(pacienteEditar[0]);
+  };
+
+  const pacienteEliminar = (id) => {
+    Alert.alert(
+      "¿Deseas eliminar este paciente?",
+      "Un paciente eliminado no se puede recuperar",
+      [
+        { text: "Cancelar" },
+        {
+          text: "Sí, eliminar",
+          onPress: () => {
+            const pacientesActualizados = pacientes.filter(
+              (pacientesState) => pacientesState.id !== id
+            );
+
+            setPacientes(pacientesActualizados);
+          },
+        },
+      ]
+    );
   };
 
   return (
@@ -51,6 +71,7 @@ const App = () => {
                 item={item}
                 setModalVisible={setModalVisible}
                 pacienteEditar={pacienteEditar}
+                pacienteEliminar={pacienteEliminar}
               />
             );
           }}

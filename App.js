@@ -72,6 +72,7 @@ const App = () => {
               <Paciente
                 item={item}
                 setModalVisible={setModalVisible}
+                setPaciente={setPaciente}
                 pacienteEditar={pacienteEditar}
                 pacienteEliminar={pacienteEliminar}
                 modalPaciente={setModalPaciente}
@@ -91,7 +92,7 @@ const App = () => {
       />
 
       <Modal visible={modalPaciente} animationType="fade">
-        <InformacionPaciente />
+        <InformacionPaciente paciente={paciente} />
       </Modal>
     </SafeAreaView>
   );

@@ -1,11 +1,10 @@
 import React from "react";
-import { Text } from "react-native";
-import { SafeAreaView } from "react-native-web";
+import { Text, SafeAreaView } from "react-native";
 
-const InformacionPaciente = () => {
+const InformacionPaciente = ({ paciente }) => {
   return (
     <SafeAreaView>
-      <Text>InformacionPaciente</Text>;
+      <Text>InformacionPaciente</Text>;<Text>{paciente.paciente}</Text>
     </SafeAreaView>
   );
 };

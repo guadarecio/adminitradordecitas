@@ -7,6 +7,7 @@ const Paciente = ({
   pacienteEditar,
   pacienteEliminar,
   setModalPaciente,
+  setPaciente,
 }) => {
   const { paciente, fecha, id } = item;
 
@@ -25,7 +26,11 @@ const Paciente = ({
 
   return (
     <Pressable>
-      onPress={() => setModalPaciente(true)}
+      onPress=
+      {() => {
+        setModalPaciente(true);
+        setPaciente(item);
+      }}
       <View style={styles.contenedor}>
         <Text style={styles.label}>Paciente:</Text>
         <Text style={styles.texto}>{paciente}</Text>

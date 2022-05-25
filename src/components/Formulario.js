@@ -14,7 +14,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 const Formulario = ({
   modalVisible,
-  setModalVisible,
+  cerrarModal,
   pacientes,
   setPacientes,
   paciente: pacienteObj,
@@ -41,13 +41,14 @@ const Formulario = ({
   }, [pacienteObj]);
 
   const handleCita = () => {
+    // Validar
     if ([paciente, propietario, email, fecha, sintomas].includes("")) {
       Alert.alert("Error", "Todos los campos son obligatorios");
       return;
     }
 
+    // Revisar si es un registro nuevo o edición
     const nuevoPaciente = {
-      id: Date.now(),
       paciente,
       propietario,
       email,
@@ -57,24 +58,22 @@ const Formulario = ({
     };
 
     if (id) {
+      // Editando
       nuevoPaciente.id = id;
 
       const pacientesActualizados = pacientes.map((pacienteState) =>
         pacienteState.id === nuevoPaciente.id ? nuevoPaciente : pacienteState
       );
-
       setPacientes(pacientesActualizados);
       setPacienteApp({});
     } else {
+      // Nuevo Registro
       nuevoPaciente.id = Date.now();
       setPacientes([...pacientes, nuevoPaciente]);
     }
-
-    setPacientes([...pacientes, nuevoPaciente]);
-    setModalVisible(!modalVisible);
-
-    setPaciente("");
+    cerrarModal();
     setId("");
+    setPaciente("");
     setPropietario("");
     setEmail("");
     setTelefono("");
@@ -87,15 +86,14 @@ const Formulario = ({
       <SafeAreaView style={styles.contenido}>
         <ScrollView>
           <Text style={styles.titulo}>
-            {pacienteObj.id ? "Editar" : "Nueva"}
-            {""}
+            {pacienteObj.id ? "Editar" : "Nueva"} {""}
             <Text style={styles.tituloBold}>Cita</Text>
           </Text>
 
           <Pressable
             style={styles.btnCancelar}
-            onPress={() => {
-              setModalVisible(!modalVisible);
+            onLongPress={() => {
+              cerrarModal();
               setPacienteApp({});
               setId("");
               setPaciente("");
@@ -108,6 +106,7 @@ const Formulario = ({
           >
             <Text style={styles.btnCancelarTexto}>X Cancelar</Text>
           </Pressable>
+
           <View style={styles.campo}>
             <Text style={styles.label}>Nombre Paciente</Text>
             <TextInput
@@ -154,15 +153,15 @@ const Formulario = ({
               maxLength={10}
             />
           </View>
+
           <View style={styles.campo}>
             <Text style={styles.label}>Fecha Alta</Text>
+
             <View style={styles.fechaContenedor}>
               <DateTimePicker
                 value={fecha}
-                display="spinner"
-                locale="es-ES"
-                mode="datetime"
-                onChange={(event, date) => setFecha(date)}
+                locale="es"
+                onDateChange={(date) => setFecha(date)}
               />
             </View>
           </View>
@@ -171,7 +170,6 @@ const Formulario = ({
             <Text style={styles.label}>Síntomas</Text>
             <TextInput
               style={[styles.input, styles.sintomasInput]}
-              placeholder="Síntomas Paciente"
               placeholderTextColor={"#666"}
               value={sintomas}
               onChangeText={setSintomas}
@@ -196,7 +194,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#6D28D9",
     flex: 1,
   },
-
   titulo: {
     fontSize: 30,
     fontWeight: "600",
@@ -204,11 +201,9 @@ const styles = StyleSheet.create({
     marginTop: 30,
     color: "#FFF",
   },
-
   tituloBold: {
     fontWeight: "900",
   },
-
   btnCancelar: {
     marginVertical: 30,
     backgroundColor: "#5827A4",
@@ -216,20 +211,17 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
   },
-
   btnCancelarTexto: {
     color: "#FFF",
     textAlign: "center",
     fontWeight: "900",
-    fontSize: 20,
+    fontSize: 16,
     textTransform: "uppercase",
   },
-
   campo: {
     marginTop: 10,
     marginHorizontal: 30,
   },
-
   label: {
     color: "#FFF",
     marginBottom: 10,
@@ -237,22 +229,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
   },
-
   input: {
     backgroundColor: "#FFF",
     padding: 15,
     borderRadius: 10,
   },
-
   sintomasInput: {
     height: 100,
   },
-
   fechaContenedor: {
     backgroundColor: "#FFF",
     borderRadius: 10,
   },
-
   btnNuevaCita: {
     marginVertical: 50,
     backgroundColor: "#F59E0B",
@@ -260,12 +248,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     borderRadius: 10,
   },
-
   btnNuevaCitaTexto: {
     color: "#5827A4",
     textAlign: "center",
     fontWeight: "900",
-    fontSize: 20,
+    fontSize: 16,
     textTransform: "uppercase",
   },
 });

@@ -27,13 +27,14 @@ const App = () => {
   };
 
   const pacienteEliminar = (id) => {
+    console.log("ide", id);
     Alert.alert(
       "¿Deseas eliminar este paciente?",
       "Un paciente eliminado no se puede recuperar",
       [
         { text: "Cancelar" },
         {
-          text: "Sí, eliminar",
+          text: "Si, eliminar",
           onPress: () => {
             const pacientesActualizados = pacientes.filter(
               (pacientesState) => pacientesState.id !== id
@@ -75,7 +76,7 @@ const App = () => {
                 setPaciente={setPaciente}
                 pacienteEditar={pacienteEditar}
                 pacienteEliminar={pacienteEliminar}
-                modalPaciente={setModalPaciente}
+                setModalPaciente={setModalPaciente}
               />
             );
           }}
@@ -92,7 +93,10 @@ const App = () => {
       />
 
       <Modal visible={modalPaciente} animationType="fade">
-        <InformacionPaciente paciente={paciente} />
+        <InformacionPaciente
+          paciente={paciente}
+          setModalPaciente={setModalPaciente}
+        />
       </Modal>
     </SafeAreaView>
   );

@@ -20,28 +20,28 @@ const Formulario = ({
   paciente: pacienteObj,
   setPaciente: setPacienteApp,
 }) => {
-  const [paciente, setPaciente] = useState("");
   const [id, setId] = useState("");
+  const [paciente, setPaciente] = useState("");
   const [propietario, setPropietario] = useState("");
   const [email, setEmail] = useState("");
   const [telefono, setTelefono] = useState("");
-  const [sintomas, setSintomas] = useState("");
   const [fecha, setFecha] = useState(new Date());
+  const [sintomas, setSintomas] = useState("");
 
   useEffect(() => {
     if (Object.keys(pacienteObj).length > 0) {
-      setPaciente(pacienteObj.paciente);
       setId(pacienteObj.id);
+      setPaciente(pacienteObj.paciente);
       setPropietario(pacienteObj.propietario);
       setEmail(pacienteObj.email);
       setTelefono(pacienteObj.telefono);
-      setSintomas(pacienteObj.sintomas);
       setFecha(pacienteObj.fecha);
+      setSintomas(pacienteObj.sintomas);
     }
   }, [pacienteObj]);
 
   const handleCita = () => {
-    if ([paciente, propietario, email, fecha, sintomas].includes(" ")) {
+    if ([paciente, propietario, email, fecha, sintomas].includes("")) {
       Alert.alert("Error", "Todos los campos son obligatorios");
       return;
     }
@@ -73,8 +73,6 @@ const Formulario = ({
     setPacientes([...pacientes, nuevoPaciente]);
     setModalVisible(!modalVisible);
 
-    console.log(pacientes);
-
     setPaciente("");
     setId("");
     setPropietario("");
@@ -89,7 +87,8 @@ const Formulario = ({
       <SafeAreaView style={styles.contenido}>
         <ScrollView>
           <Text style={styles.titulo}>
-            {pacienteObj.id ? "Editar" : "Nueva"}{" "}
+            {pacienteObj.id ? "Editar" : "Nueva"}
+            {""}
             <Text style={styles.tituloBold}>Cita</Text>
           </Text>
 
@@ -183,7 +182,7 @@ const Formulario = ({
 
           <Pressable style={styles.btnNuevaCita} onPress={handleCita}>
             <Text style={styles.btnNuevaCitaTexto}>
-              {pacienteObj.id ? "Editar Paciente" : "Agregar Paciente"}
+              {pacienteObj.id ? "Editar" : "Agregar"} Paciente
             </Text>
           </Pressable>
         </ScrollView>

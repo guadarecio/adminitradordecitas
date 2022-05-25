@@ -6,6 +6,7 @@ const Paciente = ({
   setModalVisible,
   pacienteEditar,
   pacienteEliminar,
+  setModalPaciente,
 }) => {
   const { paciente, fecha, id } = item;
 
@@ -23,28 +24,31 @@ const Paciente = ({
   };
 
   return (
-    <View style={styles.contenedor}>
-      <Text style={styles.label}>Paciente:</Text>
-      <Text style={styles.texto}>{paciente}</Text>
-      <Text style={styles.fecha}>{formatearFecha(fecha)}</Text>
-      <View style={styles.contenedorBotones}>
-        <Pressable
-          style={[styles.btn, styles.btnEditar]}
-          onPress={() => {
-            setModalVisible(true);
-            pacienteEditar(id);
-          }}
-        >
-          <Text style={styles.btnTexto}>Editar</Text>
-        </Pressable>
-        <Pressable
-          style={[styles.btn, styles.btnEliminar]}
-          onPress={() => pacienteEliminar(id)}
-        >
-          <Text style={styles.btnTexto}>Eliminar</Text>
-        </Pressable>
+    <Pressable>
+      onPress={() => setModalPaciente(true)}
+      <View style={styles.contenedor}>
+        <Text style={styles.label}>Paciente:</Text>
+        <Text style={styles.texto}>{paciente}</Text>
+        <Text style={styles.fecha}>{formatearFecha(fecha)}</Text>
+        <View style={styles.contenedorBotones}>
+          <Pressable
+            style={[styles.btn, styles.btnEditar]}
+            onPress={() => {
+              setModalVisible(true);
+              pacienteEditar(id);
+            }}
+          >
+            <Text style={styles.btnTexto}>Editar</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.btn, styles.btnEliminar]}
+            onPress={() => pacienteEliminar(id)}
+          >
+            <Text style={styles.btnTexto}>Eliminar</Text>
+          </Pressable>
+        </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
